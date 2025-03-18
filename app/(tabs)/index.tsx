@@ -1,31 +1,37 @@
-import { StyleSheet } from 'react-native';
+import { View } from "react-native";
+import React, { useMemo, useState } from "react";
+import { Stack } from "expo-router";
+import ExploreHeader from "@/components/ExploreHeader";
+import { categories } from "@/constants/DummyValue";
+import listingsData from "@/assets/data/airbnb-listings.json";
+import ListingsMap from "@/components/ListingsMap";
+import { Listing } from "@/interfaces/listing";
+import ListingsBottomSheet from "@/components/ListingsBottomSheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { defaultStyles } from "@/constants/Styles";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+const Explore = () => {
+  const [category, setCategory] = useState(categories[0].name);
+  const listings = useMemo(() => listingsData as Listing[], []);
 
-export default function TabOneScreen() {
+  const onCategoryChange = (category: string) => {
+    setCategory(category);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View style={defaultStyles.container}>
+      <Stack.Screen
+        options={{
+          header: () => <ExploreHeader onCategoryChange={onCategoryChange} />,
+        }}
+      />
+
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ListingsMap listings={listings} />
+        <ListingsBottomSheet category={category} listings={listings} />
+      </GestureHandlerRootView>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+export default Explore;
