@@ -1,6 +1,7 @@
 # Airbnb Clone - React Native Expo
 
 This project is a clone of the Airbnb app built using React Native and Expo. It aims to replicate the core functionality and user experience of the original Airbnb application.
+![Untitled design (3)](https://github.com/user-attachments/assets/d996b758-c087-46bb-ace0-b1607518bab4)
 
 ## Features
 
